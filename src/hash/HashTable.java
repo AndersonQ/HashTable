@@ -2,7 +2,7 @@ package hash;
 
 import bin.tree.trie.*;
 
-//How to treat collisions: Without two different zones
+//TODO treat collisions: Without two different zones
 
 public class HashTable {
 
@@ -11,13 +11,12 @@ public class HashTable {
 	private NodeT[] nodes;
 	
 	/**
-	 * Create HashTable with a default size
+	 * Create HashTable with a default size 10
 	 */
 	public HashTable()
 	{
 		//Default size
-		this.size = 50;
-		//Initialize nodes with default value
+		this.size = 10;
 	}
 	
 	/**
@@ -27,8 +26,24 @@ public class HashTable {
 	 */
 	public HashTable(int s)
 	{
-		//Define size as 120% of size defined by user
-		this.size = (int) Math.floor(1.20 * s);
+		//Define size as user defined
+		this.size = s;
+	}
+	
+	/**
+	 * Add the value in the storage vector treating collisions
+	 * TODO treat collisions!!!!!!
+	 * @param key
+	 * @param lines element to add
+	 */
+	public void add(String key, int[] lines)
+	{
+		//Get the hash value to key
+		int hashkey  = getHash(key);
+		//Position at nodes vector
+		int pos = hashkey % this.size;
+		
+		nodes[pos] = new NodeT(key, lines);
 	}
 	
 	/**
@@ -58,6 +73,12 @@ public class HashTable {
 	private class NodeT
 	{
 		private String key;
+		private int[] lines;
+		
+		public NodeT(String key, int[] lines)
+		{
+			this.key = key;
+			this.lines = lines;
+		}
 	}
-	
 }
