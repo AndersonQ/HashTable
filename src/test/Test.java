@@ -4,7 +4,7 @@ import hash.HashTable;
 
 public class Test {
 
-	public void main(String args[])
+	public static void main(String args[])
 	{
 		HashTable hash = new HashTable();
 		System.out.println("HashTable created!");
