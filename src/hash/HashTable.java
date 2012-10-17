@@ -1,6 +1,6 @@
 package hash;
 
-import bin.tree.trie.*;
+//import bin.tree.trie.*;
 
 //TODO treat collisions: Without two different zones
 
@@ -69,6 +69,20 @@ public class HashTable {
 
 		return hash;
 	}
+	
+	/**
+	 * Debug method: print all nodes stotagede in hashtable
+	 */
+	public void printElements()
+	{
+		for(NodeT n: nodes)
+		{
+			if(n != null)
+			{
+				System.out.println(n.toString());
+			}
+		}
+	}
 		
 	private class NodeT
 	{
@@ -79,6 +93,23 @@ public class HashTable {
 		{
 			this.key = key;
 			this.lines = lines;
+		}
+		
+		/**
+		 * Prints a hashtable node
+		 */
+		public String toString()
+		{
+			StringBuilder str = new StringBuilder();
+			str.append(key);
+			str.append(" -> lines: ");
+			for(int l: lines)
+			{
+				str.append(l);
+				str.append(" ");
+			}
+			
+			return str.toString();
 		}
 	}
 }
