@@ -1,7 +1,5 @@
 package hash;
 
-//import bin.tree.trie.*;
-
 //TODO treat collisions: Without two different zones
 
 public class HashTable {
@@ -17,6 +15,7 @@ public class HashTable {
 	{
 		//Default size
 		this.size = 10;
+		nodes = new NodeT[size];
 	}
 	
 	/**
@@ -28,6 +27,7 @@ public class HashTable {
 	{
 		//Define size as user defined
 		this.size = s;
+		nodes = new NodeT[size];
 	}
 	
 	/**
