@@ -6,8 +6,8 @@ import bin.tree.trie.*;
 
 public class HashTable {
 
+	private final int weight = 2;
 	private int size;
-	private int[] weight;
 	private NodeT[] nodes;
 	
 	/**
@@ -17,8 +17,6 @@ public class HashTable {
 	{
 		//Default size
 		this.size = 50;
-		//Initialize weight
-		initWeight();
 		//Initialize nodes with default value
 	}
 	
@@ -48,28 +46,15 @@ public class HashTable {
 		//Set key to lower case
 		key = key.toLowerCase();
 		
+		//Calculate the hash value
 		for(int i = 0; i < keysize; i++)
 		{
-			hash = key.charAt(i) - 97;
+			hash = (key.charAt(i) - 97) * weight * (i+1);
 		}
 
-		return -1;
+		return hash;
 	}
-	
-	/**
-	 * initialize weight vector
-	 */
-	private void initWeight()
-	{
-		weight = new int[26];
 		
-		for(int i = 0; i < 26; i++)
-		{
-			weight[i] = i + 1;
-		}
-		
-	}
-	
 	private class NodeT
 	{
 		private String key;
