@@ -23,11 +23,29 @@ public class Test {
 
 	public static void main(String args[])
 	{
+		int[] lines;
+		
 		HashTable hash = new HashTable();
 		System.out.println("HashTable created!");
 		
 		hash.add("Anderson", new int[] {1,2,3});
 		hash.add("Joao", new int[] {2,3,4});
+		
+		lines = hash.get("Anderson");
+		System.out.print("Get Anderson: ");
+		for(int i = 0; i < lines.length; i++)
+		{
+			System.out.printf("%d, ", lines[i]);
+		}
+		System.out.println();
+		
+		lines = hash.get("Joao");
+		System.out.print("Get Joao: ");
+		for(int i = 0; i < lines.length; i++)
+		{
+			System.out.printf("%d, ", lines[i]);
+		}
+		System.out.println();
 		
 		hash.printElements();
 		
