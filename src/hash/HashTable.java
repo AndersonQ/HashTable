@@ -1,8 +1,6 @@
 /*
  * Copyright 2012 Anderson Queiroz <contato(at)andersonq(dot)eti(dot)br>
  * 
- * This file is part of OFFViewer.
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with OFFViewer. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package hash;
 
 //TODO treat collisions: Without two different zones
@@ -26,6 +23,40 @@ public class HashTable {
 	private final int weight = 2;
 	private int size;
 	private NodeT[] nodes;
+	
+	/**
+	 * A Hash Table node
+	 * @author Anderson Queiroz <contato(at)andersonq(dot)eti(dot)br>
+	 *
+	 */
+	private class NodeT
+	{
+		private String key;
+		private int[] lines;
+		
+		public NodeT(String key, int[] lines)
+		{
+			this.key = key;
+			this.lines = lines;
+		}
+		
+		/**
+		 * Prints a hashtable node
+		 */
+		public String toString()
+		{
+			StringBuilder str = new StringBuilder();
+			str.append(key);
+			str.append(" -> lines: ");
+			for(int l: lines)
+			{
+				str.append(l);
+				str.append(" ");
+			}
+			
+			return str.toString();
+		}
+	}
 	
 	/**
 	 * Create HashTable with a default size 10
@@ -100,35 +131,6 @@ public class HashTable {
 			{
 				System.out.println(n.toString());
 			}
-		}
-	}
-		
-	private class NodeT
-	{
-		private String key;
-		private int[] lines;
-		
-		public NodeT(String key, int[] lines)
-		{
-			this.key = key;
-			this.lines = lines;
-		}
-		
-		/**
-		 * Prints a hashtable node
-		 */
-		public String toString()
-		{
-			StringBuilder str = new StringBuilder();
-			str.append(key);
-			str.append(" -> lines: ");
-			for(int l: lines)
-			{
-				str.append(l);
-				str.append(" ");
-			}
-			
-			return str.toString();
 		}
 	}
 }
