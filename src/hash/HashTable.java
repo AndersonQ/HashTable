@@ -31,8 +31,13 @@ public class HashTable {
 	 */
 	private class NodeT
 	{
+		/* The key */
 		private String key;
+		/* The element */
 		private int[] lines;
+		/* A pointer to next node, to solve colisions */
+		private NodeT next;
+		
 		
 		public NodeT(String key, int[] lines)
 		{
@@ -55,6 +60,21 @@ public class HashTable {
 			}
 			
 			return str.toString();
+		}
+	}
+	
+	private class HashTableOverflow extends Exception
+	{
+		private String message;
+		
+		public HashTableOverflow(String message)
+		{
+			message = String.format("Error: HashTable Overflow!\n%s", message);
+		}
+		
+		public void print()
+		{
+			System.out.println(message);
 		}
 	}
 	
@@ -86,14 +106,71 @@ public class HashTable {
 	 * @param key
 	 * @param lines element to add
 	 */
-	public void add(String key, int[] lines)
+	public boolean add(String key, int[] lines)
 	{
 		//Get the hash value to key
 		int hashkey  = getHash(key);
 		//Position at nodes vector
-		int pos = hashkey % this.size;
+		int pos;
 		
-		nodes[pos] = new NodeT(key, lines);
+		pos = getHash(key);
+		
+		//Collision! Solve it!
+		if (nodes[pos] != null)
+		{
+			try
+			{
+				return solveCollision(key, pos, lines);
+			} 
+			catch (HashTableOverflow e) {
+				//e.printStackTrace();
+				e.print();
+				return false;
+			}
+		}
+		else
+		{
+			nodes[pos] = new NodeT(key, lines);
+			return true;
+		}
+	}
+	
+	private boolean solveCollision(String key, int hashkey, int[] lines) throws HashTableOverflow
+	{
+		//Has it collided before?
+		if(nodes[hashkey].next == null)
+		{
+			//It has never collided
+			nodes[hashkey].next = nodes[++hashkey];
+			nodes[hashkey] = new NodeT(key, lines);
+			return true;
+		}
+		//It has collided before, find a empty node to store the element
+		else
+		{
+			hashkey++;
+			//Go to next node until the end of nodes, looking for a free node
+			while(nodes[hashkey].next != null)
+			{
+				//Overflow!
+				if(++hashkey >= size)
+				{
+					throw new HashTableOverflow(String.format("Impossible add key: %s", key));
+				}
+			}
+			//Found a free node
+			//the found node is the last node?
+			if(hashkey == size - 1)
+			{
+				throw new HashTableOverflow(String.format("Impossible add key: %s", key));
+			}
+			else
+			{
+				nodes[hashkey + 1] = new NodeT(key, lines);
+				nodes[hashkey].next = nodes[hashkey];
+				return true;
+			}
+		}
 	}
 	
 	/**
