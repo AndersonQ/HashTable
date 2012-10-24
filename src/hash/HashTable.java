@@ -112,10 +112,8 @@ public class HashTable {
 		//Get the hash value to key
 		int hashkey  = getHash(key);
 		//Position at nodes vector
-		int pos;
-		
-		pos = getHash(key);
-		
+		int pos = getHash(key);
+
 		//Collision! Solve it!
 		if (nodes[pos] != null)
 		{
@@ -195,7 +193,7 @@ public class HashTable {
 			hash = (key.charAt(i) - 97) * weight * (i+1);
 		}
 
-		return hash;
+		return hash % this.size;
 	}
 	
 	/**
