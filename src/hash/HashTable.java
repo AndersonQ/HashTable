@@ -35,7 +35,7 @@ public class HashTable {
 		private String key;
 		/* The element */
 		private int[] lines;
-		/* A pointer to next node, to solve colisions */
+		/* A pointer to next node, to solve collisions */
 		private NodeT next;
 		
 		
@@ -43,6 +43,7 @@ public class HashTable {
 		{
 			this.key = key;
 			this.lines = lines;
+			this.next = null;
 		}
 		
 		/**
@@ -198,7 +199,36 @@ public class HashTable {
 	}
 	
 	/**
-	 * Debug method: print all nodes stotagede in hashtable
+	 * Search for a key
+	 * @param key a key to find
+	 * @return a node that store the key, or null
+	 */
+	private NodeT find(String key)
+	{
+		int pos = getHash(key);
+		
+		for(NodeT tmp = nodes[pos]; tmp != null; tmp = tmp.next)
+		{
+			if(tmp.key.compareTo(key) == 0)
+			{
+				return tmp;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Get the element pointed by a key
+	 * @param key a key that represents the element
+	 * @return the element pointed by key or null, it it was not found
+	 */
+	public int[] get(String key)
+	{	
+		return find(key).lines;
+	}
+	
+	/**
+	 * Debug method: print all nodes stored in hashtable
 	 */
 	public void printElements()
 	{
