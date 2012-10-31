@@ -85,7 +85,7 @@ public class HashTable {
 	public HashTable()
 	{
 		//Default size
-		this.size = 10;
+		this.size = 23;
 		nodes = new Node[size];
 	}
 	
