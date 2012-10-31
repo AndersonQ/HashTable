@@ -22,27 +22,27 @@ public class HashTable {
 
 	private final int weight = 2;
 	private int size;
-	private NodeT[] nodes;
+	private Node[] nodes;
 	
 	/**
 	 * A Hash Table node
 	 * @author Anderson Queiroz <contato(at)andersonq(dot)eti(dot)br>
 	 *
 	 */
-	private class NodeT
+	private class Node
 	{
 		/* The key */
 		private String key;
 		/* The element */
-		private int[] lines;
+		private int[] element;
 		/* A pointer to next node, to solve collisions */
-		private NodeT next;
+		private Node next;
 		
 		
-		public NodeT(String key, int[] lines)
+		public Node(String key, int[] lines)
 		{
 			this.key = key;
-			this.lines = lines;
+			this.element = lines;
 			this.next = null;
 		}
 		
@@ -54,7 +54,7 @@ public class HashTable {
 			StringBuilder str = new StringBuilder();
 			str.append(key);
 			str.append(" -> lines: ");
-			for(int l: lines)
+			for(int l: element)
 			{
 				str.append(l);
 				str.append(" ");
@@ -86,7 +86,7 @@ public class HashTable {
 	{
 		//Default size
 		this.size = 10;
-		nodes = new NodeT[size];
+		nodes = new Node[size];
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class HashTable {
 	{
 		//Define size as user defined
 		this.size = s;
-		nodes = new NodeT[size];
+		nodes = new Node[size];
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class HashTable {
 		}
 		else
 		{
-			nodes[pos] = new NodeT(key, lines);
+			nodes[pos] = new Node(key, lines);
 			return true;
 		}
 	}
@@ -141,7 +141,7 @@ public class HashTable {
 		{
 			//It has never collided
 			nodes[hashkey].next = nodes[++hashkey];
-			nodes[hashkey] = new NodeT(key, lines);
+			nodes[hashkey] = new Node(key, lines);
 			return true;
 		}
 		//It has collided before, find a empty node to store the element
@@ -165,7 +165,7 @@ public class HashTable {
 			}
 			else
 			{
-				nodes[hashkey + 1] = new NodeT(key, lines);
+				nodes[hashkey + 1] = new Node(key, lines);
 				nodes[hashkey].next = nodes[hashkey];
 				return true;
 			}
@@ -201,11 +201,11 @@ public class HashTable {
 	 * @param key a key to find
 	 * @return a node that store the key, or null
 	 */
-	private NodeT find(String key)
+	private Node find(String key)
 	{
 		int pos = getHash(key);
 		
-		for(NodeT tmp = nodes[pos]; tmp != null; tmp = tmp.next)
+		for(Node tmp = nodes[pos]; tmp != null; tmp = tmp.next)
 		{
 			if(tmp.key.compareTo(key) == 0)
 			{
@@ -222,7 +222,15 @@ public class HashTable {
 	 */
 	public int[] get(String key)
 	{	
-		return find(key).lines;
+		Node n = find(key);
+		if(n != null)
+		{
+			return n.element;
+		}
+		else
+		{
+		return null;
+		}
 	}
 	
 	/**
@@ -230,7 +238,7 @@ public class HashTable {
 	 */
 	public void printElements()
 	{
-		for(NodeT n: nodes)
+		for(Node n: nodes)
 		{
 			if(n != null)
 			{
