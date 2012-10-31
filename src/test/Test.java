@@ -30,6 +30,7 @@ public class Test {
 		
 		hash.add("Anderson", new int[] {1,2,3});
 		hash.add("Joao", new int[] {2,3,4});
+		hash.add("teste", new int[] {3,4,5});
 		
 		lines = hash.get("Anderson");
 		System.out.print("Get Anderson: ");
@@ -41,6 +42,14 @@ public class Test {
 		
 		lines = hash.get("Joao");
 		System.out.print("Get Joao: ");
+		for(int i = 0; i < lines.length; i++)
+		{
+			System.out.printf("%d, ", lines[i]);
+		}
+		System.out.println();
+		
+		lines = hash.get("teste");
+		System.out.print("Get teste: ");
 		for(int i = 0; i < lines.length; i++)
 		{
 			System.out.printf("%d, ", lines[i]);
