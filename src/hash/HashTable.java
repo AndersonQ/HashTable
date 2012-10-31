@@ -70,12 +70,12 @@ public class HashTable {
 		
 		public HashTableOverflow(String message)
 		{
-			message = String.format("Error: HashTable Overflow!\n%s", message);
+			this.message = String.format("Error: HashTable Overflow! %s", message);
 		}
 		
 		public void print()
 		{
-			System.out.println(message);
+			System.out.println(this.message);
 		}
 	}
 	
@@ -110,10 +110,9 @@ public class HashTable {
 	public boolean add(String key, int[] lines)
 	{
 		//Get the hash value to key
-		int hashkey  = getHash(key);
 		//Position at nodes vector
 		int pos = getHash(key);
-
+		
 		//Collision! Solve it!
 		if (nodes[pos] != null)
 		{
@@ -129,6 +128,7 @@ public class HashTable {
 		}
 		else
 		{
+			System.out.println();
 			nodes[pos] = new Node(key, lines);
 			return true;
 		}
@@ -136,40 +136,31 @@ public class HashTable {
 	
 	private boolean solveCollision(String key, int hashkey, int[] lines) throws HashTableOverflow
 	{
-		//Has it collided before?
-		if(nodes[hashkey].next == null)
+		Node tmpnode = nodes[hashkey];
+		
+		//Find the last collision node
+		while(tmpnode.next != null)
 		{
-			//It has never collided
-			nodes[hashkey].next = nodes[++hashkey];
-			nodes[hashkey] = new Node(key, lines);
-			return true;
+			tmpnode = tmpnode.next;
 		}
-		//It has collided before, find a empty node to store the element
+		int tmp = hashkey + 1;
+		int i = 0;
+		while(nodes[tmp] != null && i < nodes.length)//&& ((tmp % this.size) == (hashkey - 1)))
+		{
+			++i;
+			++tmp;
+		}
+		//OverFlow!
+		if(!(i < nodes.length))//(tmp % this.size) == (hashkey - 1))
+		{
+			throw new HashTableOverflow(String.format("Impossible add key: %s", key));
+		}
 		else
 		{
-			hashkey++;
-			//Go to next node until the end of nodes, looking for a free node
-			while(nodes[hashkey].next != null)
-			{
-				//Overflow!
-				if(++hashkey >= size)
-				{
-					throw new HashTableOverflow(String.format("Impossible add key: %s", key));
-				}
-			}
-			//Found a free node
-			//the found node is the last node?
-			if(hashkey == size - 1)
-			{
-				throw new HashTableOverflow(String.format("Impossible add key: %s", key));
-			}
-			else
-			{
-				nodes[hashkey + 1] = new Node(key, lines);
-				nodes[hashkey].next = nodes[hashkey];
-				return true;
-			}
+			nodes[tmp] = new Node(key, lines);
+			tmpnode.next = nodes[tmp];
 		}
+		return true;
 	}
 	
 	/**
@@ -190,9 +181,9 @@ public class HashTable {
 		//Calculate the hash value
 		for(int i = 0; i < keysize; i++)
 		{
-			hash = (key.charAt(i) - 97) * weight * (i+1);
+			hash += (key.charAt(i)) * weight * (i+1);
 		}
-
+		
 		return hash % this.size;
 	}
 	
