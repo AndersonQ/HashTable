@@ -85,7 +85,7 @@ public class HashTable {
 	public HashTable()
 	{
 		//Default size
-		this.size = 23;
+		this.size = 13;
 		nodes = new Node[size];
 	}
 	
@@ -128,7 +128,7 @@ public class HashTable {
 		}
 		else
 		{
-			System.out.println();
+			//System.out.println();
 			nodes[pos] = new Node(key, lines);
 			return true;
 		}
@@ -220,7 +220,7 @@ public class HashTable {
 		}
 		else
 		{
-		return null;
+			return null;
 		}
 	}
 	
